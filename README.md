@@ -5,8 +5,8 @@
   
   ### *Unveiling Architectural Mastery Through Digital Innovation*
   
-  [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-blue?style=for-the-badge&logo=netlify)](https://your-netlify-url.netlify.app)
-  [![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/your-username/the-salmancas)
+  [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-blue?style=for-the-badge&logo=netlify)](https://salamancas.netlify.app)
+  [![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/akash03v/The-Salmancas)
   [![Hackathon Project](https://img.shields.io/badge/Hackathon-Winner-gold?style=for-the-badge&logo=trophy)](https://your-hackathon-link)
   
   ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
@@ -90,20 +90,20 @@ the-salmancas/
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/the-salmancas.git
-   cd the-salmancas
+   git clone https://github.com/akash03v/The-Salmancas.git
+   cd The-Salmancas
    ```
 
 2. **Access the Application**
-   - **Live Version**: Visit [The Salmancas Live](https://your-netlify-url.netlify.app)
+   - **Live Version**: Visit [The Salmancas Live](https://salamancas.netlify.app)
    - **Local Development**: Navigate to `http://localhost:8000` in your browser (if running local server)
    - Start with the authentication page (`index.html`)
    - Explore the main platform (`home.html`)
 
 ### 🌐 Live Deployment
 
-- **Production Site**: [The Salmancas Live](https://your-netlify-url.netlify.app)
-- **GitHub Repository**: [Source Code](https://github.com/your-username/the-salmancas)
+- **Production Site**: [The Salmancas Live](https://salamancas.netlify.app)
+- **GitHub Repository**: [Source Code](https://github.com/akash03v/The-Salmancas)
 
 ## 🎮 User Experience Journey
 
@@ -161,8 +161,8 @@ This project was developed during a competitive hackathon environment, showcasin
 ## 📞 Contact
 
 **Developers**
-- 📧 Email: akashharkar03v@gmail.com
 - 📧 Email: mnshghogare@gmail.com
+- 📧 Email: akashharkar03v@gmail.com
 
 For business inquiries and project collaborations, feel free to reach out via email.
 
