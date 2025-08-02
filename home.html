@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="/salamanca/the.png" type="favicon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap-grid.css">
+    <link rel="stylesheet" href="animate.css">
+    <link rel="stylesheet" href="odometer.css">
+    <link rel="stylesheet" href="style.css">
+    <title>The Salmancas</title>
+    <style>
+        .video-showcase {
+            margin: 40px 0;
+            position: relative;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            background: transparent;
+            padding: 0;
+        }
+        
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .showcase-video {
+            width: 100%;
+            height: auto;
+            min-height: 300px;
+            object-fit: cover;
+            object-position: center 20%;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .video-container:hover .video-overlay {
+            opacity: 1;
+        }
+        
+        .video-container:hover .showcase-video {
+            transform: scale(1.02);
+        }
+        
+        .video-label {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .play-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .video-container:hover .play-indicator {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .play-indicator::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid #333;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 4px;
+        }
+        
+
+        @media (max-width: 768px) {
+            .video-showcase {
+                margin: 30px 0;
+            }
+            
+            .showcase-video {
+                min-height: 200px;
+            }
+            
+            .video-label {
+                top: 15px;
+                left: 15px;
+                padding: 6px 12px;
+                font-size: 10px;
+            }
+            
+            .play-indicator {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .play-indicator::after {
+                border-left: 15px solid #333;
+                border-top: 9px solid transparent;
+                border-bottom: 9px solid transparent;
+            }
+        }
+        
+        .video-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .video-reveal.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+
+        .footer-video-section {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-video-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 0;
+            background: #000;
+        }
+        
+        .footer-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            filter: brightness(0.8) contrast(1.1);
+        }
+        
+        .footer-video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg, 
+                rgba(102, 126, 234, 0.2) 0%, 
+                rgba(118, 75, 162, 0.3) 50%, 
+                rgba(0, 0, 0, 0.4) 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .footer-video-content {
+            color: white;
+            z-index: 2;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+        
+        .footer-video-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: -1px;
+        }
+        
+        .footer-video-subtitle {
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            margin: 0;
+        }
+        
+
+        @media (max-width: 768px) {
+            .footer-video-container {
+                height: 300px;
+            }
+            
+            .footer-video-title {
+                font-size: 2.5rem;
+            }
+            
+            .footer-video-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .footer-video-container {
+                height: 250px;
+            }
+            
+            .footer-video-title {
+                font-size: 2rem;
+            }
+            
+            .footer-video-subtitle {
+                font-size: 1rem;
+            }
+        }
+
+
+        nav a.active {
+            color: #667eea;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container-fluid p-0">
+        <nav class="container-fluid">
+            <div class="container-xl">
+                <a href="#home" class="logo">
+                    <img src="/salamanca/the.png" alt="">
+                </a>
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">Studio</a>
+                <a href="#portfolio" class="nav-link">Projects</a>
+                <a href="#brands" class="nav-link">Services</a>
+                <a href="#footer" class="nav-link">Contact</a>
+                <a href="/home.html" class="btn_1">Let's talk</a>
+                <div class="menu">
+                    <img src="images/hamburger.png" alt="">
+                </div>
+                <div class="menu_container">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#about" class="nav-link">Studio</a>
+                    <a href="#portfolio" class="nav-link">Projects</a>
+                    <a href="#brands" class="nav-link">Services</a>
+                    <a href="#footer" class="nav-link">Contact</a>
+                    <a href="mailto:hellow.mnshghogare@gmail.com" class="btn_1">Let's talk</a>
+                </div>
+            </div>
+        </nav>
+        <section id="home" class="intro">
+            <div class="container-xl">
+                <div class="heading_1 wow animate__animated animate__fadeInUp">
+                    Unveiling <br>
+                    Architectural <br>
+                    Mastery
+                </div>
+                <p class="wow animate__animated animate__fadeInUp">
+                    We breathe life into dreams, creating
+                    environments where innovation meets tradition,
+                    and spaces transcend mere structures
+                </p>
+                
+    
+                <div class="video-showcase">
+                    <div class="video-container video-reveal">
+                        <div class="video-wrapper">
+                            <video 
+                                class="showcase-video" 
+                                autoplay 
+                                muted 
+                                loop 
+                                playsinline
+                                poster="images/video-poster.jpg">
+                                <source src="/element.mp4" type="video/mp4">
+                                <source src="videos/architectural-showcase.webm" type="video/webm">
+                            </video>
+                            <div class="video-overlay"></div>
+                            <div class="video-label"></div>
+                            <div class="play-indicator"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="projects">
+                    <div class="project wow animate__animated animate__fadeInUp">
+                        <img src="images/2.jpg" alt="">
+                    </div>
+                    <div class="project wow animate__animated animate__fadeInUp">
+                        <img src="images/3.jpg" alt="">
+                    </div>
+                </div>
+
+                <a href="#" class="btn_2">View Projects</a>
+            </div>
+        </section>
+        <section id="about" class="about">
+            <div class="container-xl">
+                <div class="section_heading">
+                    <div>
+                        <p class="wow animate__animated animate__fadeInUp">
+                            We blend creativity and functionality to
+                            redefine the way you experience your
+                            surroundings.
+                        </p>
+                        <a href="#" class="btn_2">View More</a>
+                    </div>
+                    <div>
+                        <div class="heading_2 wow animate__animated animate__fadeInUp">
+                            Best Architect with <br>
+                            knowledge
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-5">
+                    <div class="col-md-4">
+                        <div class="card wow animate__animated animate__fadeInUp">
+                            <div class="card_header">
+                                <span>
+                                    01
+                                </span>
+                                <div class="icon">
+                                    <img src="images/arrow.png" alt="">
+                                </div>
+                            </div>
+                            <div class="card_body">
+                                <div class="heading_3">Innovation <br>
+                                    Design</div>
+                                <p>Our commitment to cutting-edge design
+                                    and sustainable practices ensures that our
+                                    creations stand the test of time.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card wow animate__animated animate__fadeInUp animate__delay-1s">
+                            <div class="card_header">
+                                <span>
+                                    02
+                                </span>
+                                <div class="icon">
+                                    <img src="images/arrow.png" alt="">
+                                </div>
+                            </div>
+                            <div class="card_body">
+                                <div class="heading_3">Architectural <br>
+                                    Detailing</div>
+                                <p>Experience the perfect blend of innovation
+                                    and sophistication as we craft spaces that
+                                    reflect your unique style.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card_bg wow animate__animated animate__fadeInUp animate__delay-2s">
+                            <div class="card_header">
+                                <span>
+                                    03
+                                </span>
+                                <div class="icon">
+                                    <img src="images/arrow-black.png" alt="">
+                                </div>
+                            </div>
+                            <div class="card_body">
+                                <div class="heading_3">Pleasantly <br>
+                                    Redesign</div>
+                                <p>"Transform your living space with a home
+                                    redesign that adds style, functionality, and
+                                    a fresh perspective to your environment."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="rating">
+            <div class="container-xl">
+                <div class="section_heading">
+                    <div>
+                        <div class="heading_2 wow animate__animated animate__fadeInUp">
+                            A leading construction company <br>
+                             backed by expert knowledge
+                        </div>
+                    </div>
+                    <div>
+                        <p class="wow animate__animated animate__fadeInUp">
+                            Welcome to a world where spaces transform into
+                            works of art. Our architects bring a touch of
+                            brilliance to every project
+                        </p>
+                        <a href="#" class="btn_2">View More</a>
+                    </div>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="users heading_3"><span class="odometer" data-value="900">0</span>k+</div>
+                        <span>Happy Sellers</span>
+                    </div>
+                    <div class="stat">
+                        <div class="shipments heading_3"><span class="odometer" data-value="2.8">0</span>k+</div>
+                        <span>Shipments Daily</span>
+                    </div>
+                    <div class="stat">
+                        <div class="ratings heading_3"><span class="odometer" data-value="4.8">0</span></div>
+                        <span>App Rating</span>
+                    </div>
+                </div>
+                <div class="row g-5">
+                    <div class="col-md-4 image-card wow animate__animated animate__fadeInLeft">
+                        <img src="images/5.jpg" alt="">
+                    </div>
+                    <div class="col-md-4 image-card wow animate__animated animate__fadeInUp">
+                        <img src="images/6.jpg" alt="">
+                    </div>
+                    <div class="col-md-4 image-card wow animate__animated animate__fadeInRight">
+                        <img src="images/7.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="portfolio" class="portfolio">
+            <div class="container-xl">
+                <div class="section_heading">
+                    <div class="heading_2 wow animate__animated animate__fadeInUp">
+                        Explore designs that redefine <br>
+                        conventional spaces.
+                    </div>
+                    <p class="wow animate__animated animate__fadeInUp">Embark on a journey of collaboration, where your dreams become reality.</p>
+                </div>
+                <div class="showcases">
+                    <div class="showcase wow animate__animated animate__fadeInUp">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="images/8.jpg" alt="">
+                            </div>
+                            <div class="col-md-10">
+                                <div class="heading_3">High Quality Visuals</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="showcase wow animate__animated animate__fadeInUp">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="heading_3">Unique Selling</div>
+                            </div>
+                            <div class="col-md-2">
+                                <img src="images/9.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="showcase wow animate__animated animate__fadeInUp">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="images/10.jpg" alt="">
+                            </div>
+                            <div class="col-md-10">
+                                <div class="heading_3">Home Ware</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="showcase wow animate__animated animate__fadeInUp">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="heading_3">Selling In 2025</div>
+                            </div>
+                            <div class="col-md-2">
+                                <img src="images/11.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="showcase wow animate__animated animate__fadeInUp">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="images/12.jpg" alt="">
+                            </div>
+
+                            <div class="col-md-10">
+                                <div class="heading_3">Medal Rate Estate</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <marquee behavior="scroll" direction="left" scrollamount="10">
+            <div class="marque_holder">
+                <img src="images/star.png" alt="">
+                <div class="heading_3">SEO</div>
+                <img src="images/star.png" alt="">
+                <div class="heading_3">ADVERTISING</div>
+                <img src="images/star.png" alt="">
+                <div class="heading_3">DIGITAL MARKETING</div>
+                <img src="images/star.png" alt="">
+                <div class="heading_3">SOCIAL MEDIA</div>
+                <img src="images/star.png" alt="">
+                <div class="heading_3">CONTENT MARKETING</div>
+                <img src="images/star.png" alt="">
+                <div class="heading_3">PHARMACY</div>
+                <img src="images/star.png" alt="">
+                <div class="heading_3">CLIENT DEVELOMENT</div>
+            </div>
+        </marquee>
+        <section id="brands" class="brands">
+            <div class="container-xl">
+                <div class="section_heading">
+                    <div>
+                        <p class="wow animate__animated animate__fadeInUp">
+                            Welcome to a world where spaces transform into
+                            works of art. Our family bring a touch of
+                            brilliance to every project
+                        </p>
+                        <a href="#" class="btn_2">View More</a>
+                    </div>
+                    <div>
+                        <div class="heading_2 wow animate__animated animate__fadeInUp">
+                            Salmancas<br>
+                            innovates with:
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-0">
+                <div class="col-md-3 col-sm-6 brand-holder">
+                    <div class="brand-image wow animate__animated animate__fadeInUp">
+                        <img src="images/brands-1.png" alt="">
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 brand-holder">
+                    <div class="brand-image wow animate__animated animate__fadeInUp animate__delay-1s">
+                        <img src="images/brands-2.png " alt="">
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 brand-holder">
+                    <div class="brand-image wow animate__animated animate__fadeInUp animate__delay-2s">
+                        <img src="images/brands-3.png" alt="">
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 brand-holder">
+                    <div class="brand-image wow animate__animated animate__fadeInUp animate__delay-3s">
+                        <img src="images/brands-4.png" alt="">
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 brand-holder">
+                    <div class="brand-image wow animate__animated animate__fadeInUp">
+                        <img src="images/brands-5.png" alt="">
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 brand-holder">
+                    <div class="brand-image wow animate__animated animate__fadeInUp animate__delay-1s">
+                        <img src="images/brands-6.png" alt="">
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 brand-holder">
+                    <div class="brand-image wow animate__animated animate__fadeInUp animate__delay-2s">
+                        <img src="images/brands-7.png" alt="">
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 brand-holder">
+                    <div class="brand-image wow animate__animated animate__fadeInUp animate__delay-3s">
+                        <img src="images/brands-8.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="footer-video-section">
+            <div class="container-xl">
+                <div class="footer-video-container">
+                    <video 
+                        class="footer-video" 
+                        autoplay 
+                        muted 
+                        loop 
+                        playsinline
+                        poster="images/footer-video-poster.jpg">
+                        <source src="/element.mp4" type="video/mp4">
+                        <source src="videos/footer-showcase.webm" type="video/webm">
+                    </video>
+                    <div class="footer-video-overlay">
+                        <div class="footer-video-content">
+                            <h2 class="footer-video-title">Experience Excellence</h2>
+                            <p class="footer-video-subtitle">Where innovation meets craftsmanship</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer id="footer">
+            <div class="container-xl">
+                <div class="footer">
+                    <div>
+                        <a href="#home" class="logo wow animate__animated animate__fadeInUp">
+                            <img src="/salamanca/the.png" alt="">
+                        </a>
+                        <div class="wow animate__animated animate__fadeInUp">
+                            <p>Follow Us</p>
+                            <span><a href="/home.html">.pinterest</a> <a href="/home.html">.instagram</a> <a href="/home.html">.twitter</a></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="heading_3 wow animate__animated animate__fadeInUp">
+                            Enter Your Email To <br>
+                            Get The Latest News
+                        </div>
+                        <div class="input_container wow animate__animated animate__fadeInUp">
+                            <input type="email" placeholder="Enter your email address">
+                            <button class="btn_1"><a href="#home">Submit</a></button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <hr>
+                <small>The Salmancas &copy; 2025</small>
+            </div>
+        </footer>
+    </main>
+    <script src="odometer.js"></script>
+    <script src="wow.js"></script>
+    <script src="lenis.js"></script>
+    <script>
+        const wow = new WOW();
+        wow.init();
+        const lenis = new Lenis();
+        const stats = document.querySelector('.stats');
+        let odometerStarted = false;
+
+        function raf(time) {
+            lenis.raf(time);
+            const statsPosition = stats.getBoundingClientRect();
+            if (!odometerStarted && statsPosition.top <= window.innerHeight && statsPosition.bottom >= 0) {
+                const odometers = document.querySelectorAll('.odometer');
+                odometers.forEach(odometer => {
+                    odometer.innerHTML = odometer.getAttribute('data-value');
+                });
+                odometerStarted = true;
+            }
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+        
+        const menu = document.querySelector(".menu");
+        const menuContainer = document.querySelector(".menu_container");
+        let menuToggle = false;
+        menu.addEventListener("click", ()=>{
+            if(!menuToggle){
+                menuContainer.style.transform = "translateX(0)";
+                lenis.stop();
+            }
+            else{
+                menuContainer.style.transform = "translateX(100%)";
+                lenis.start();
+            }
+            
+            menuToggle = !menuToggle
+        })
+
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+
+                    if (menuToggle) {
+                        menuContainer.style.transform = "translateX(100%)";
+                        lenis.start();
+                        menuToggle = false;
+                    }
+                    
+
+                    lenis.scrollTo(targetSection, {
+                        offset: -80, 
+                        duration: 1.2,
+                        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                    });
+                    
+
+                    document.querySelectorAll('.nav-link').forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+
+        const sections = document.querySelectorAll('section[id], footer[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-50% 0px -50% 0px',
+            threshold: 0
+        };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const currentId = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${currentId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+        const videoElement = document.querySelector('.video-reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        if (videoElement) {
+            observer.observe(videoElement);
+        }
+
+        const video = document.querySelector('.showcase-video');
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        if (video) {
+            videoObserver.observe(video);
+        }
+
+
+        const footerVideo = document.querySelector('.footer-video');
+        const footerVideoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    footerVideo.play();
+                } else {
+                    footerVideo.pause();
+                }
+            });
+        }, { threshold: 0.3 });
+
+        if (footerVideo) {
+            footerVideoObserver.observe(footerVideo);
+        }
+    </script>
+</body>
+
+</html>
