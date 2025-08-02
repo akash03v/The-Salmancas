@@ -167,15 +167,6 @@ This project was developed during a competitive hackathon environment, showcasin
 For business inquiries and project collaborations, feel free to reach out via email.
 
 
-
-## 🙏 Acknowledgments
-
-- **Hackathon Organizers** for providing the platform to innovate
-- **Open Source Community** for the amazing libraries and tools
-- **Design Inspiration** from modern architectural websites
-- **Beta Testers** who provided valuable feedback
-- **Mentors** who guided us throughout the development process
-
 ---
 
 <div align="center">
